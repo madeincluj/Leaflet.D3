@@ -34,7 +34,11 @@ L.D3geoJSON = L.Class.extend({
 			})
 		);
 
-		this._feature = this._group.selectAll('path').data(this.data.features).enter().append('path').on('click', this._clickHandler);
+		this._feature = this._group.selectAll('path')
+			.data(this.data.features)
+			.enter()
+				.append('path')
+				.on('click', this._clickHandler);
 		this._map.on('viewreset', this.reset, this);
 
 		this._feature.attr('pointer-events', 'visible');
@@ -53,19 +57,23 @@ L.D3geoJSON = L.Class.extend({
 	},
 
 	reset: function() {
-		this.bounds = this.path.bounds(this.data);
+		var start = new Date();
+		if (!this._bounds) {
+			this._bounds = d3.geo.path().projection(null).bounds(this.data);
+		}
 
-		var topLeft = this.bounds[0],
-			bottomRight = this.bounds[1];
+		var topLeft = this._map.latLngToLayerPoint([this._bounds[0][1], this._bounds[0][0]]),
+			bottomRight = this._map.latLngToLayerPoint([this._bounds[1][1], this._bounds[1][0]]);
 
 		this._svg
-			.attr('width', bottomRight[0] - topLeft[0])
-			.attr('height', bottomRight[1] - topLeft[1])
-			.style('left', topLeft[0] + 'px')
-			.style('top', topLeft[1] + 'px');
+			.attr('width', bottomRight.x - topLeft.x)
+			.attr('height', topLeft.y - bottomRight.y)
+			.style('left', topLeft.x + 'px')
+			.style('top', bottomRight.y + 'px');
 
-		this._group.attr('transform', 'translate(' + -topLeft[0] + ',' + -topLeft[1] + ')');
+		this._group.attr('transform', 'translate(' + -topLeft.x + ',' + -bottomRight.y + ')');
 		this._feature.attr('d', this.path);
+		console.log((new Date()) - start);
 	},
 
 	addTo: function(map) {
