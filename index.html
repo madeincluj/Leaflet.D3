@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+	<title>Leaflet.D3.js demo</title>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+	<!--[if lte IE 8]>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+	<![endif]-->
+	<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+	<script src="js/leaflet.d3.js"></script>
+
+	<style type='text/css'>
+
+		path {
+			fill:none;
+			stroke: #c00;
+		}
+
+		path:hover {
+			stroke: #0c0;
+			cursor: pointer;
+		}
+
+		.highway-residential { stroke-width: 1px; }
+		.highway-primary { stroke-width: 4px; }
+		.highway-secondary { stroke-width: 3px; }
+		.highway-tertiary { stroke-width: 2px; }
+
+	</style>
+
+	<script type='text/javascript'>
+
+	window.onload = function() {
+		var map = L.map('map',{
+	        maxBounds: [[46.6412301,23.4324747],[46.9201137,23.8047838]]
+	      }).fitBounds([[46.7412301, 23.53816],[46.76813, 23.59253]]);
+
+        L.tileLayer('http://a.tile.stamen.com/toner-lite/{z}/{x}/{y}.png').addTo(map);	
+
+    	d3.json("../street-names/json/streets.json", function(collection) {
+			var layer = window.layer = new L.D3geoJSON(collection, {
+				featureAttributes: {
+					'class': function(feature) {
+						return 'highway-' + feature.properties.highway;
+					}
+				},
+			}).addTo(map).on('click', function(e) {
+				// todo
+			});
+		});
+    };
+
+	</script>
+</head>
+<body>
+
+	<div id='map' style='position:absolute;top:0;left:0;right:0;bottom:0;'></div>
+
+</body>
+</html>
