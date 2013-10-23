@@ -14,7 +14,7 @@
 
 		#svg-streets path {
 			fill:none;
-			stroke: #c00;
+			stroke: rgba(0,0,0,0.3);
 		}
 
 		#svg-streets path:hover {
@@ -28,7 +28,7 @@
 		#svg-streets .highway-tertiary { stroke-width: 2px; }
 
 		#svg-buildings path {
-			fill: #0c0;
+			fill: rgba(0,0,0,0.3);
 		}
 
 		#svg-buildings path:hover {
@@ -45,9 +45,9 @@
 	        maxBounds: [[46.6412301,23.4324747],[46.9201137,23.8047838]]
 	      }).fitBounds([[46.7412301, 23.53816],[46.76813, 23.59253]]);
 
-        L.tileLayer('http://a.tile.stamen.com/toner-lite/{z}/{x}/{y}.png').addTo(map);	
+        L.tileLayer('http://a.tile.stamen.com/watercolor/{z}/{x}/{y}.png').addTo(map);	
 
-    	d3.json("../street-names/json/streets.json", function(collection) {
+    	d3.json("../street-names/json/selected-streets.json", function(collection) {
 			var layer = new L.D3geoJSON(collection, {
 				id: 'svg-streets',
 				featureAttributes: {
@@ -56,7 +56,7 @@
 					}
 				},
 			}).addTo(map).on('click', function(e) {
-				// show popup?
+				console.log(e.data.properties.name);
 			});
 		});
 
