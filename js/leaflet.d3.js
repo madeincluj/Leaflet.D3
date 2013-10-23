@@ -8,8 +8,9 @@ L.D3geoJSON = L.Class.extend({
 		var that = this;
 		this._clickHandler = function(data, idx) {
 			that.fire('click', {
-				target: this,
-				data: data
+				element: this,
+				data: data,
+				originalEvent: d3.event
 			});
 		};
 	},
