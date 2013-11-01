@@ -27,12 +27,14 @@ L.D3geoJSON = L.Class.extend({
       this._svg.attr('id', this.options.id);
     }
 
-    this.path = d3.geo.path().projection(
-      function(d) {
-        var point = map.latLngToLayerPoint(new L.LatLng(d[1], d[0]));
-        return [point.x, point.y];
-      }
-    );
+    var t = d3.geo.transform({
+        point: function(x, y) {
+          var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+          return this.stream.point(point.x, point.y);
+        }
+      });
+
+    this.path = d3.geo.path().projection(t);
 
     this._feature = this._group.selectAll('path')
       .data(this.data.features)

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Leaflet.D3.js demo</title>
-	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="js/lib/d3.js" charset="utf-8"></script>
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
 	<!--[if lte IE 8]>
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
@@ -36,6 +36,10 @@
 			cursor: pointer;
 		}
 
+		#svg-places path {
+			fill: yellow;
+		}
+
 	</style>
 
 	<script type='text/javascript'>
@@ -45,7 +49,7 @@
 	        maxBounds: [[46.6412301,23.4324747],[46.9201137,23.8047838]]
 	      }).fitBounds([[46.7412301, 23.53816],[46.76813, 23.59253]]);
 
-        L.tileLayer('http://a.tile.stamen.com/watercolor/{z}/{x}/{y}.png').addTo(map);	
+        L.tileLayer('http://a.tile.stamen.com/toner/{z}/{x}/{y}.png').addTo(map);	
 
     	d3.json("../street-names/json/selected-streets.json", function(collection) {
 			var layer = new L.D3geoJSON(collection, {
@@ -60,11 +64,19 @@
 			});
 		});
 
-		d3.json("../madeincluj/geojson/osm_buildings.geojson", function(collection) {
+		d3.json("../buildings/json/buildings.json", function(collection) {
 			var layer = new L.D3geoJSON(collection, {
 				id: 'svg-buildings',
 			}).addTo(map).on('click', function(e) {
-				// todo
+				console.log(e);
+			});
+		});
+
+		d3.json("../buildings/temp-data/pins.json", function(collection) {
+			var layer = new L.D3geoJSON(collection, {
+				id: 'svg-places',
+			}).addTo(map).on('click', function(e) {
+				console.log(e);
 			});
 		});
     };
