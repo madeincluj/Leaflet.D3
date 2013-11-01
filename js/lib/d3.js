@@ -3512,7 +3512,7 @@ d3 = function() {
     return stream;
   }
   function d3_geo_resample(project) {
-    var δ2 = .5, cosMinDistance = Math.cos(30 * d3_radians), maxDepth = 16;
+    var δ2 = .5, cosMinDistance = Math.cos(30 * d3_radians), maxDepth = 0;
     function resample(stream) {
       return (maxDepth ? resampleRecursive : resampleNone)(stream);
     }
@@ -3641,7 +3641,7 @@ d3 = function() {
       return project([ x * d3_degrees, y * d3_degrees ]);
     });
     return function(stream) {
-      return d3_geo_projectionRadians(resample(stream));
+      return stream;
     };
   }
   d3.geo.transform = function(methods) {

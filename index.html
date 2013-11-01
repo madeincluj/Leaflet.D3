@@ -65,6 +65,7 @@
 		});
 
 		d3.json("../buildings/json/buildings.json", function(collection) {
+
 			var layer = new L.D3geoJSON(collection, {
 				id: 'svg-buildings',
 			}).addTo(map).on('click', function(e) {
@@ -72,13 +73,13 @@
 			});
 		});
 
-		d3.json("../buildings/temp-data/pins.json", function(collection) {
-			var layer = new L.D3geoJSON(collection, {
-				id: 'svg-places',
-			}).addTo(map).on('click', function(e) {
-				console.log(e);
-			});
-		});
+		// d3.json("../buildings/temp-data/pins.json", function(collection) {
+		// 	var layer = new L.D3geoJSON(collection, {
+		// 		id: 'svg-places',
+		// 	}).addTo(map).on('click', function(e) {
+		// 		console.log(e);
+		// 	});
+		// });
     };
 
 	</script>

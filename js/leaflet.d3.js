@@ -27,9 +27,13 @@ L.D3geoJSON = L.Class.extend({
       this._svg.attr('id', this.options.id);
     }
 
+    function latLngToPoint(latlng) {
+      return map.project(latlng)._subtract(map.getPixelOrigin());
+    };
+
     var t = d3.geo.transform({
         point: function(x, y) {
-          var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+          var point = latLngToPoint(new L.LatLng(y, x));
           return this.stream.point(point.x, point.y);
         }
       });
