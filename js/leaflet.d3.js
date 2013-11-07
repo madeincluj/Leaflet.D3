@@ -60,6 +60,7 @@ L.D3geoJSON = L.Class.extend({
   },
 
   onRemove: function(map) {
+      this._map.getPanes().overlayPane.remove(this._svg);
       this._map.off('viewreset', this.reset, this);
   },
 
